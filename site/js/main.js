@@ -11,4 +11,7 @@ fetch('data/voters_lists/0101.csv')
 .then(text => {
     const data = Papa.parse(text, { header: true});
     console.log(data);
+    let layer = L.latLng(data, (
+        pointToLayer: ()
+    ))
 });
