@@ -19,13 +19,13 @@ The items listed under **Your Repository** and **Core Interface Elements** are a
 
 ### Loading voter files...
 
-* [ ] There should be an `input` element on the page where you can enter a voter file number. **Save the `input` DOM element in a variable named `voterFileInput` attached to the global `window` object.** In other words:
+* [x] There should be an `input` element on the page where you can enter a voter file number. **Save the `input` DOM element in a variable named `voterFileInput` attached to the global `window` object.** In other words:
   
   ```js
   window.voterFileInput = ...;
   ```
 
-* [ ] There should be a `button` that will load the voter file number given in the `voterFileInput` when clicked. **Save the `button` DOM element in a variable named `voterFileLoadButton` attached to the global `window` object.**
+* [x] There should be a `button` that will load the voter file number given in the `voterFileInput` when clicked. **Save the `button` DOM element in a variable named `voterFileLoadButton` attached to the global `window` object.**
 
 ### Listing and mapping voters...
 
