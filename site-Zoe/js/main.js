@@ -12,7 +12,6 @@ let app = {
 
 const loadOverlayEl = document.getElementById('load-overlay');
 const map = initMap();
-let voterData; /* HOW THE FUCK DO I GET THIS TO SAVE CORRECTLY - need it for showVotersInList?*/
 
 function getFile() {
   //Filter based on file name
@@ -22,13 +21,33 @@ function getFile() {
   .then(resp => resp.text())
   .then(text => {
     const data = Papa.parse(text, {header: true, dynamicTyping: true});
-    voterData = JSON.stringify(data);
-    console.log(voterData);
+    const dat = data["data"];
     /*
     need to do something here to convert the data in a leaflet compatible format (geojson)
     */
-    map.voterLayer.addData(voterData);
-    loadOverlayEl.classList.add('hidden');
+    /* for (var i=0 ; i < dat.length ; i++) {
+      dat[i]["longitude"] = dat[i]['TIGER/Line Lng/Lat'].substr(0,dat[i]["TIGER/Line Lng/Lat"].indexOf(","))
+      dat[i]["latitude"] = dat[i]['TIGER/Line Lng/Lat'].substr(temp0[01]["TIGER/Line Lng/Lat"].indexOf(",")+1,)
+
+    } */
+    console.log(dat);
+
+    /*
+    var geojsonFormattedLocations = dat.map(function(location) {
+      return {
+          type: 'Feature',
+          geometry: {
+          type: 'Point',
+              coordinates: [location.longitude, location.latitude]
+          },
+          properties: {
+              location
+          }
+      };
+    });
+    */
+    map.voterLayer.addData(dat[0o1]['TIGER/Line Lng/Lat']);
+    /* loadOverlayEl.classList.add('hidden'); */
   });
 }
 
