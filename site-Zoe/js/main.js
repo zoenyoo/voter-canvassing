@@ -12,7 +12,7 @@ let app = {
 
 const loadOverlayEl = document.getElementById('load-overlay');
 const map = initMap();
-let voterData; /* HOW THE FUCK DO I GET THIS TO SAVE CORRECTLY */
+let voterData; /* HOW THE FUCK DO I GET THIS TO SAVE CORRECTLY - need it for showVotersInList?*/
 
 function getFile() {
   //Filter based on file name
