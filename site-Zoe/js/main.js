@@ -20,16 +20,20 @@ function getFile() {
   fetch(fileName)
   .then(resp => resp.text())
   .then(text => {
-    const data = Papa.parse(text, {header: true, dynamicTyping: true});
-    const dat = data["data"];
+    const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: false});
+    const dat = data['data'];
     /*
     need to do something here to convert the data in a leaflet compatible format (geojson)
     */
-    /* for (var i=0 ; i < dat.length ; i++) {
-      dat[i]["longitude"] = dat[i]['TIGER/Line Lng/Lat'].substr(0,dat[i]["TIGER/Line Lng/Lat"].indexOf(","))
-      dat[i]["latitude"] = dat[i]['TIGER/Line Lng/Lat'].substr(temp0[01]["TIGER/Line Lng/Lat"].indexOf(",")+1,)
+    dat.forEach(item => { item['mString'] = `${item['TIGER/Line Lng/Lat'].substr(item["TIGER/Line Lng/Lat"].indexOf(",")+1,)}` });
+    dat.forEach(item => { item['latitude'] = `${item["TIGER/Line Lng/Lat"].substr(0,18)}` }); 
 
-    } */
+
+
+
+      dat[i]["longitude"] = dat[i]['TIGER/Line Lng/Lat'].substr(0,dat[i]["TIGER/Line Lng/Lat"].indexOf(","))
+      dat[i]["latitude"] = dat[i]['TIGER/Line Lng/Lat'].substr(dat[01]["TIGER/Line Lng/Lat"].indexOf(",")+1,)
+    } 
     console.log(dat);
 
     /*
@@ -46,7 +50,7 @@ function getFile() {
       };
     });
     */
-    map.voterLayer.addData(dat[0o1]['TIGER/Line Lng/Lat']);
+    map.voterLayer.addData(dat);
     /* loadOverlayEl.classList.add('hidden'); */
   });
 }
