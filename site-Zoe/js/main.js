@@ -12,7 +12,7 @@ let voterList = document.querySelector('#voter-list');
 
 let app = {
   currentVoter: null,
-  notes: JSON.parse(localStorage.getItem('notes') || '{}'),
+  notes: null,
 };
 
 const loadOverlayEl = document.getElementById('load-overlay');
@@ -48,7 +48,7 @@ function onInventoryLoadSuccess(data) {
 
 function onSaveClicked(evt) {
   const note = evt.detail.note;
-  const voterId = app.currentTree.properties['ID Number'];
+  const voterId = app.currentVoter.properties['ID Number'];
   app.notes[voterId] = note;
 
   saveNotes(app.notes);
@@ -90,7 +90,6 @@ initToast();
 initVoterInfoForm();
 setupGeolocationEvent();
 setupInteractionEvents();
-
 
 
 window.app = app;
