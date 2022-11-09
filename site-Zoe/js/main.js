@@ -1,11 +1,12 @@
 import  { initMap, updateUserPositionOn } from './map.js';
 import { initVoterInfoForm, showVoterDataInForm } from './voter-info-form.js';
 import { initToast, showToast } from './toast.js';
+import { showVotersInList } from './voter-list.js';
 
 const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
 
-
+let voterList = document.querySelector('#voter-list'); 
 
 let app = {
   currentVoter: null,
@@ -14,6 +15,7 @@ let app = {
 
 const loadOverlayEl = document.getElementById('load-overlay');
 const map = initMap();
+const vlist = [];
 
 function getFile() {
   //Filter based on file name
@@ -22,37 +24,18 @@ function getFile() {
   fetch(fileName)
   .then(resp => resp.text())
   .then(text => {
-    const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: false});
-    // const dat = data['data'];
+    const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
     for (const r of data.data){
-      if (r['TIGER/Line Match Status'] !== '') {
-        const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
-        map.voterLayer.addLayer(L.circleMarker([lnglat[1],lnglat[0]]));
-      } else {
-      console.log(r);
-      }
+      const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
+      map.voterLayer.addLayer(L.circleMarker([lnglat[1],lnglat[0]]));
+      vlist.push(r);
     }
-
-    /*
-    var geojsonFormattedLocations = dat.map(function(location) {
-      return {
-          type: 'Feature',
-          geometry: {
-          type: 'Point',
-              coordinates: [location.longitude, location.latitude]
-          },
-          properties: {
-              location
-          }
-      };
-    });
-    */
-    /* map.voterLayer.addData(dat);
-    /* loadOverlayEl.classList.add('hidden'); */
+    console.log(vlist);
   });
 }
 
-fileLoadButton.addEventListener('click', getFile); /* should function be getFile? */
+fileLoadButton.addEventListener('click', getFile, console.log(vlist)); 
+// fileLoadButton.addEventListener('click', showVotersInList(voters, voterList)); 
 
 function onUserPositionSuccess(pos) {
   updateUserPositionOn(map, pos);
@@ -97,6 +80,8 @@ initToast();
 initVoterInfoForm();
 setupGeolocationEvent();
 setupInteractionEvents();
+
+
 
 window.app = app;
 window.voterFileInput = fileInput;
