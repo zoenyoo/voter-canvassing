@@ -5,6 +5,8 @@ import { initToast, showToast } from './toast.js';
 const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
 
+
+
 let app = {
   currentVoter: null,
   notes: JSON.parse(localStorage.getItem('notes') || '{}'),
@@ -21,20 +23,15 @@ function getFile() {
   .then(resp => resp.text())
   .then(text => {
     const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: false});
-    const dat = data['data'];
-    /*
-    need to do something here to convert the data in a leaflet compatible format (geojson)
-    */
-    dat.forEach(item => { item['mString'] = `${item['TIGER/Line Lng/Lat'].substr(item["TIGER/Line Lng/Lat"].indexOf(",")+1,)}` });
-    dat.forEach(item => { item['latitude'] = `${item["TIGER/Line Lng/Lat"].substr(0,18)}` }); 
-
-
-
-
-      dat[i]["longitude"] = dat[i]['TIGER/Line Lng/Lat'].substr(0,dat[i]["TIGER/Line Lng/Lat"].indexOf(","))
-      dat[i]["latitude"] = dat[i]['TIGER/Line Lng/Lat'].substr(dat[01]["TIGER/Line Lng/Lat"].indexOf(",")+1,)
-    } 
-    console.log(dat);
+    // const dat = data['data'];
+    for (const r of data.data){
+      if (r['TIGER/Line Match Status'] !== '') {
+        const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
+        map.voterLayer.addLayer(L.circleMarker([lnglat[1],lnglat[0]]));
+      } else {
+      console.log(r);
+      }
+    }
 
     /*
     var geojsonFormattedLocations = dat.map(function(location) {
@@ -50,7 +47,7 @@ function getFile() {
       };
     });
     */
-    map.voterLayer.addData(dat);
+    /* map.voterLayer.addData(dat);
     /* loadOverlayEl.classList.add('hidden'); */
   });
 }
@@ -95,7 +92,7 @@ function setupInteractionEvents() {
   window.addEventListener('save-clicked', onSaveClicked);
 }
 
-/* initMap(); /* may not need this once getFile is fixed */
+initMap(); /* may not need this once getFile is fixed */
 initToast();
 initVoterInfoForm();
 setupGeolocationEvent();
