@@ -14,8 +14,9 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const firestoreDb = getFirestore(firebaseApp);
 
-function downloadInventory(onSuccess, onFailure) {
-  fetch('data/tree-inventory.geojson')
+function downloadInventory(onSuccess, onFailure, txt) {
+  const filename = `data/voters_lists/${txt}.csv`;
+  fetch(filename)
   .then(resp => {
     if (resp.status === 200) {
       const data = resp.json();

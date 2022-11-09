@@ -4,7 +4,6 @@ import { initToast, showToast } from './toast.js';
 import { showVotersInList } from './voter-list.js';
 import { downloadInventory, loadNotes, saveNotes } from './inventory.js';
 
-
 const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
 
@@ -92,7 +91,15 @@ setupGeolocationEvent();
 setupInteractionEvents();
 
 
+loadNotes(notes => {
+  app.notes = notes;
+  setupInteractionEvents();
+});
+// downloadInventory(onInventoryLoadSuccess);
+
+
 window.app = app;
 window.voterFileInput = fileInput;
 window.voterFileLoadButton = fileLoadButton;
 window.voterMap = map;
+

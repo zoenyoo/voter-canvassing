@@ -3,6 +3,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="i_voted.png" type="site/icon type">
 
     <title>Voter Canvassing Tool</title>
 
@@ -20,14 +21,17 @@
     <div id="toast" class="toast hidden"></div>
 
     <div id="voter-info" class="voter-info">
-      <h2 id="tree-name"></h2>
-      <textarea id="tree-notes" class="tree-notes" placeholder="Notes..."></textarea>
-      <button id="save-tree-notes" class="save-tree-notes">Save</button>
+      <h2 id="voter-name"></h2>
+      <textarea id="voter-notes" class="voter-notes" placeholder="Notes..."></textarea>
+      <button id="save-voter-notes" class="save-voter-notes">Save</button>
     </div>
 
     <div id="list-container" class="list-container">
       <h2 id="voter-info">Voter Info</h2>
-      <li id = "voter-list"></li>
+      <li id = "voter-list">
+        <span class="voter-name"></span>
+        <span class='voter-address'></span>
+      </li>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/leaflet.min.js" integrity="sha512-QPePsP1y4BuymxYZEuQdJ4dsUzZR9MmyrMOLK//zHK4ZoDfMA7zQOJefboRSIm6QKCfzC7djwDOO/+0f72w7Zg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
