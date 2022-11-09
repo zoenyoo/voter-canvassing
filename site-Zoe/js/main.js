@@ -2,6 +2,8 @@ import  { initMap, updateUserPositionOn } from './map.js';
 import { initVoterInfoForm, showVoterDataInForm } from './voter-info-form.js';
 import { initToast, showToast } from './toast.js';
 import { showVotersInList } from './voter-list.js';
+import { downloadInventory, loadNotes, saveNotes } from './inventory.js';
+
 
 const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
@@ -35,7 +37,32 @@ function getFile() {
 }
 
 fileLoadButton.addEventListener('click', getFile, console.log(vlist)); 
-// fileLoadButton.addEventListener('click', showVotersInList(voters, voterList)); 
+fileLoadButton.addEventListener('click', showVotersInList(vlist, voterList)); 
+
+// Event Handlers (copied from main.js of tree-inventory)
+
+function onInventoryLoadSuccess(data) {
+  map.voterLayer.addData(data);
+  loadOverlayEl.classList.add('hidden');
+}
+
+function onSaveClicked(evt) {
+  const note = evt.detail.note;
+  const voterId = app.currentTree.properties['ID Number'];
+  app.notes[voterId] = note;
+
+  saveNotes(app.notes);
+  showToast('Saved!', 'toast-success');
+}
+
+function onVoterSelected(evt) {
+  const voter = evt.detail.voter;
+  app.currentVoter = voter;
+
+  const voterId = voter.properties['ID Number'];
+  const notes = app.notes[voterId] || '';
+  showVoterDataInForm(voter, notes);
+}
 
 function onUserPositionSuccess(pos) {
   updateUserPositionOn(map, pos);
@@ -52,28 +79,11 @@ function setupGeolocationEvent() {
   );
 }
 
-function onSaveClicked(evt) {
-  const note = evt.detail.note;
-  const voterId = app.currentVoter.properties['ID Number'];
-  app.notes[voterId] = note;
-
-  localStorage.setItem('notes', JSON.stringify(app.notes));
-  showToast('Saved!', 'toast-success');
-}
-
-function onVoterSelected(evt) {
-  const voter = evt.detail.voter;
-  app.currentVoter = voter;
-
-  const voterId = voter.properties['ID Number'];
-  const notes = app.notes[voterId] || '';
-  showVoterDataInForm(voter, notes);
-}
-
 function setupInteractionEvents() {
-  window.addEventListener('tree-selected', onVoterSelected);
+  window.addEventListener('voter-selected', onVoterSelected);
   window.addEventListener('save-clicked', onSaveClicked);
 }
+
 
 initMap(); /* may not need this once getFile is fixed */
 initToast();
