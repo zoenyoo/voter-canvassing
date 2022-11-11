@@ -7,8 +7,6 @@ import { downloadInventory, loadNotes, saveNotes } from './inventory.js';
 const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
 
-let voterList = document.querySelector('#voter-list'); 
-
 let app = {
   currentVoter: null,
   notes: null,
@@ -17,6 +15,10 @@ let app = {
 const loadOverlayEl = document.getElementById('load-overlay');
 const map = initMap();
 const vlist = [];
+
+let voterList = document.querySelector('#voter-list'); 
+showVotersInList(vlist, voterList);
+
 
 function getFile() {
   //Filter based on file name
@@ -27,24 +29,34 @@ function getFile() {
   .then(text => {
     const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
     for (const r of data.data){
-      const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
-      map.voterLayer.addLayer(L.circleMarker([lnglat[1],lnglat[0]]));
-      vlist.push(r);
+      if (r['TIGER/Line Lng/Lat'] !== undefined && r['TIGER/Line Lng/Lat'] !== null) {
+        const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
+        map.voterLayer.addLayer(L.circleMarker([lnglat[1],lnglat[0]]));
+        vlist.push(r);
+      }
     }
     console.log(vlist);
   });
 }
 
-fileLoadButton.addEventListener('click', getFile, console.log(vlist)); 
-fileLoadButton.addEventListener('click', showVotersInList(vlist, voterList)); 
+fileLoadButton.addEventListener('click', () => {
+  getFile();
+  console.log(vlist);
+  showVotersInList(vlist, voterList);
+});
+
 
 // Event Handlers (copied from main.js of tree-inventory)
 
+// `onInventoryLoadSuccess` will be called if and when `downloadInventory`
+// function completes the download of the tree inventory file successfully (we do not use this function)
 function onInventoryLoadSuccess(data) {
   map.voterLayer.addData(data);
   loadOverlayEl.classList.add('hidden');
 }
 
+// `onSaveClicked` will be called if and when the save button on the voter info form is clicked.
+// not working yet
 function onSaveClicked(evt) {
   const note = evt.detail.note;
   const voterId = app.currentVoter.properties['ID Number'];
@@ -54,6 +66,8 @@ function onSaveClicked(evt) {
   showToast('Saved!', 'toast-success');
 }
 
+// `onVoterSelected` will be called if and when the user clicks on a voter on the map.
+// not working yet
 function onVoterSelected(evt) {
   const voter = evt.detail.voter;
   app.currentVoter = voter;
@@ -63,13 +77,22 @@ function onVoterSelected(evt) {
   showVoterDataInForm(voter, notes);
 }
 
+// **Geolocation** -- `onUserPositionSuccess` will be called by the geolocation
+// API if and when the user's position is successfully found
+// not working yet
 function onUserPositionSuccess(pos) {
   updateUserPositionOn(map, pos);
 }
-
 function onUserPositionFailure(err) {
   console.log(err);
 }
+
+// Define global interface setup
+// -----------------------------
+// Most setup function belong in one component or another. However, there is
+// always some setup that doesn't belong to any specific component of your
+// application. Here we set up events that have cross-component implications,
+// for which we have defined handlers above.
 
 function setupGeolocationEvent() {
   navigator.geolocation.getCurrentPosition(
@@ -83,13 +106,12 @@ function setupInteractionEvents() {
   window.addEventListener('save-clicked', onSaveClicked);
 }
 
+// Initialize the app components and events
 
 initMap(); /* may not need this once getFile is fixed */
 initToast();
 initVoterInfoForm();
 setupGeolocationEvent();
-setupInteractionEvents();
-
 
 loadNotes(notes => {
   app.notes = notes;

@@ -105,3 +105,16 @@ button {
 .hidden {
   display: none;
 }
+
+.list-container {
+  width: 100%;
+}
+
+li {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  list-style-type: circle;
+  padding: 18px;
+  line-height: 1.5;
+}
