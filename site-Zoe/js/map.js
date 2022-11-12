@@ -8,7 +8,6 @@ function onVoterClicked(evt) {
 
 function initMap() {
   const map = L.map('map', { maxZoom: 22, preferCanvas: true }).setView([39.95, -75.16], 13);
-  
   const mapboxAccount = 'mapbox';
   const mapboxStyle = 'light-v10';
   const mapboxToken = 'pk.eyJ1IjoibWp1bWJlLXRlc3QiLCJhIjoiY2w3ZTh1NTIxMTgxNTQwcGhmODU2NW5kaSJ9.pBPd19nWO-Gt-vTf1pOHBA';
