@@ -37,10 +37,42 @@ function downloadInventory() {
     });
 }
 
-function makeVoterFeature(){}
-fetch('data/voters_lists/0101.csv')
-.then(resp => resp.text())
-.then(text => {
-    const data = Papa.parse(text, { header: true});
-    console.log(data);
-});
+async function loadNotes(onSuccess, onFailure) {
+    try {
+      const notesDoc = doc(firestoreDb, "voter-notes", "notes");
+      const result = await getDoc(notesDoc);
+      const notes = result.data().notes;
+      localStorage.setItem('notes', JSON.stringify(notes));
+      onSuccess(notes);
+    } catch {
+      if (onFailure) {
+        onFailure();
+      }
+    }
+  }
+  
+  async function saveNotes(notes, onSuccess, onFailure) {
+    // Save locally.
+    localStorage.setItem('notes', JSON.stringify(notes));
+  
+    // Save in the cloud.
+    try {
+      const notesDoc = doc(firestoreDb, "voter-notes", "notes");
+      await setDoc(notesDoc, { notes });
+      console.log("Document written with ID: ", notesDoc.id);
+      if (onSuccess) {
+        onSuccess(notesDoc);
+      }
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      if (onFailure) {
+        onFailure(e);
+      }
+    }
+  }
+  
+  export {
+    downloadInventory,
+    loadNotes,
+    saveNotes,
+  };

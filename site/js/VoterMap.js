@@ -24,3 +24,25 @@ function initializeVoterMap(){
   
     return map;
   }
+
+ // Function should map all the points we just pulled
+function showVotersOnMap(VotersToShow, map) {
+    if (map.voterLayers !== undefined) {
+        map.removeLayer(map.voterLayers);
+    }
+    const voterFeatureCollection = {
+        "type": "FeatureCollection",
+        "features": VotersToShow.map(makeVoterFeature),
+    };
+
+    map.voterLayers = L.geoJSON(voterFeatureCollection, {
+        pointToLayer: (geoJsonPoint, latlng) => L.circleMarker(latlng),
+        style:{
+            stroke: null,
+            fillOpacity: 0.9,
+            radius: 3,
+        },
+    })
+    .bindTooltip(layer => layer.feature.properties['First_name'])
+    .addTo(map);
+}
