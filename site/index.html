@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>Voter Canvassing</title>
-        
-        <head>
-            <!--Leaflet Default style -->
-            <!--Please go through the Leaflet tutorial https://leafletjs.com/examples/quick-start/--> 
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="i_voted.png" type="site/icon type">
 
-        <!-- My css files-->
-        <link rel="stylesheet" href="css/styles.css">    
-    </head>
-    <body>
-        <div>
-            <h1> Voter Canvassing tool</h1>
-        </div>
+    <title>Voter Canvassing Tool</title>
 
-        <div class = "list-container">
-            <input type="text" id = "CSV-select" placeholder = "input CSV name...">
-        </div>
-         <div>
-         <div id="voterCanvassing-map"></div>
-        </div>
- 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/leaflet.min.css" integrity="sha512-ekzf1ud/EngtmWo8xbIkhtBQsSgkOhTyyD6AA6b/J4/YXTInuNgeKVQDCH/pysNYnrGgsZazWSuWsNtFKzHbmg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
 
-        <!--Make sure you put this AFTER Leaflet's CSS-->
-        <!-- MAKE SURE THE CSS GOES AT THE END OF THE BODY-->
-        <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js" integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s=" crossorigin=""></script>
-        <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
+  <body>
+    <div id="file-select" class="file-select">
+      <input type="text" id="file-name-filter" placeholder="Enter file name..."></input>
+      <button id="load-file" class="load-file">Load</button>
+    </div>
+    <div id="map" class="map"></div>
+    <!-- <div id="load-overlay" class="load-overlay">Loading...</div> <!-->
+    <div id="toast" class="toast hidden"></div>
 
-        <!-- My Project JS modules-->
-        <!--Javascript goes in after the CSS-->
-        <script type="module" src="js/main.js"></script>
-    </body> 
+    <div id="voter-info" class="voter-info">
+      <h2 id="voter-name"></h2>
+      <textarea id="voter-notes" class="voter-notes" placeholder="Notes..."></textarea>
+      <button id="save-voter-notes" class="save-voter-notes">Save</button>
+    </div>
+
+    <div id="list-container" class="list-container">
+      <h2 id="voter-info">Voter Info</h2>
+      <li id = "voter-list"></li>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/leaflet.min.js" integrity="sha512-QPePsP1y4BuymxYZEuQdJ4dsUzZR9MmyrMOLK//zHK4ZoDfMA7zQOJefboRSIm6QKCfzC7djwDOO/+0f72w7Zg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
 </html>

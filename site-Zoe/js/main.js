@@ -19,7 +19,6 @@ const vlist = [];
 let voterList = document.querySelector('#voter-list'); 
 showVotersInList(vlist, voterList);
 
-
 function getFile() {
   //Filter based on file name
   const text = fileInput.value;
@@ -35,6 +34,7 @@ function getFile() {
         vlist.push(r);
       }
     }
+
     console.log(vlist);
   });
 }
