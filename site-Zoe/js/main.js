@@ -17,27 +17,16 @@ const map = initMap();
 const vlist = [];
 
 let voterList = document.querySelector('#voter-list'); 
-// showVotersInList(vlist, voterList);
+
 
 function getFile() {
-  //Filter based on file name
+  map.voterLayer.clearLayers()
   const text = fileInput.value;
   const fileName = `data/voters_lists/${text}.csv`;
   fetch(fileName)
   .then(resp => resp.text())
   .then(text => {
     const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
-    // const fc = {
-    //   type: "FeatureCollection",
-    //   features: data.data.map(r=> ((
-    //     type: 'Feature', 
-    //     properties: r,
-    //     geometry: {
-    //       type: 'Point',
-    //       coordinates: r['TIGER/Line Lng/Lat'].split(',').map(parseFloat),
-    //     }
-    //   )));
-    //}
 
     for (const r of data.data){
       if (r['TIGER/Line Lng/Lat'] !== undefined && r['TIGER/Line Lng/Lat'] !== null) {
@@ -46,14 +35,13 @@ function getFile() {
         vlist.push(r);
       }
     }
-    console.log(vlist);
   });
 }
 
 fileLoadButton.addEventListener('click', () => {
   getFile();
   console.log(vlist);
-  showVotersInList(vlist, voterList);
+  //showVotersInList(vlist, voterList);
   vlist.length = 0;
 });
 
