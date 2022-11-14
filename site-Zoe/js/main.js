@@ -35,13 +35,14 @@ function getFile() {
         vlist.push(r);
       }
     }
+    console.log(vlist);
+    showVotersInList(vlist, voterList);
   });
 }
 
 fileLoadButton.addEventListener('click', () => {
   getFile();
-  console.log(vlist);
-  //showVotersInList(vlist, voterList);
+  //console.log(vlist);
   vlist.length = 0;
 });
 
