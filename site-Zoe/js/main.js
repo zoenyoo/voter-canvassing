@@ -68,6 +68,9 @@ function getList(loc) {
         const voterName = r['First Name'] + ' ' +  r['Last Name'];
         console.log(voterName);
         voterNameEl.innerHTML = voterName;
+        const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
+        const marker = L.circleMarker([lnglat[1],lnglat[0]]).addTo(map);
+        marker.setStyle({color: 'green'});
       } 
     }
     //const voterName = concat(r.properties['First Name'] + ' ' + r.properties['Last Name']);
@@ -77,6 +80,8 @@ function getList(loc) {
   });
 }
 
+
+
 function onVoterSelected2(evt) {
   //  const voterLocation = evt.layer._latlng;
    const x = evt.layer._latlng.lng;
@@ -85,6 +90,8 @@ function onVoterSelected2(evt) {
    console.log(voterLoc);
    getList(voterLoc);
    console.log(evt);
+     
+
 }
 
 map.voterLayer.addEventListener('click', onVoterSelected2);
