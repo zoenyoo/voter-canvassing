@@ -1,5 +1,5 @@
 const voterNameEl = document.getElementById('voter-name');
-const voterNotesEl = document.getElementById('voter-notes');
+const voterNotesEl = document.getElementsByClassName('voter-notes');
 const saveVoterNotesEl = document.getElementById('save-voter-notes');
 
 function showVoterDataInForm(voter, notes) {
@@ -12,6 +12,7 @@ function onSaveButtonClicked() {
   const note = voterNotesEl.value;
   const saveClickedEvent = new CustomEvent('save-clicked', { detail: { note } });
   window.dispatchEvent(saveClickedEvent);
+  console.log(note)
 }
 
 function initVoterInfoForm() {
