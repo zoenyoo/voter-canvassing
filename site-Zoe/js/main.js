@@ -40,11 +40,45 @@ function getFile() {
   });
 }
 
+
 fileLoadButton.addEventListener('click', () => {
   getFile();
-  //console.log(vlist);
   vlist.length = 0;
 });
+
+
+//attempt getList()
+function getList(loc) {
+  const text = fileInput.value;
+  const fileName = `data/voters_lists/${text}.csv`;
+  fetch(fileName)
+  .then(resp => resp.text())
+  .then(text => {
+    const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
+
+    for (const r of data.data){
+      if (r['TIGER/Line Lng/Lat'] !== undefined && r['TIGER/Line Lng/Lat'] !== null) {
+        const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
+        vlist.push(r);
+      }
+    }
+    //const voterName = concat(r.properties['First Name'] + ' ' + r.properties['Last Name']);
+
+    console.log(vlist);
+    showVotersInList(vlist, voterList);
+  });
+}
+
+function onVoterSelected2(evt) {
+   const voterLocation = evt.layer._latlng;
+   console.log(voterLocation);
+   getList(voterLocation)
+
+}
+
+map.voterLayer.addEventListener('click', onVoterSelected2);
+
+
 
 
 // Event Handlers (copied from main.js of tree-inventory)
@@ -69,14 +103,19 @@ function onSaveClicked(evt) {
 
 // `onVoterSelected` will be called if and when the user clicks on a voter on the map.
 // not working yet
-function onVoterSelected(evt) {
-  const voter = evt.detail.voter;
-  app.currentVoter = voter;
+//function onVoterSelected(evt) {
+//  //console.log(evt)
+//  const voter = evt.detail;
+//  console.log(voter)
+//  app.currentVoter = voter;
+//
+//  const voterId = voter.properties['ID Number'];
+//  const notes = app.notes[voterId] || '';
+//  showVoterDataInForm(voter, notes);
+//  //console.log(voter)
+//}
 
-  const voterId = voter.properties['ID Number'];
-  const notes = app.notes[voterId] || '';
-  showVoterDataInForm(voter, notes);
-}
+//map.voterLayer.addEventListener('click', onVoterSelected);
 
 // **Geolocation** -- `onUserPositionSuccess` will be called by the geolocation
 // API if and when the user's position is successfully found

@@ -1,9 +1,11 @@
-function onVoterClicked(evt) {
-  console.log(evt);
-  const voter = evt.layer.feature;
 
+function onVoterClicked(evt) {
+  //console.log(evt);
+  const voter = evt.layer; //evt.layer.feature is undefined
   const voterSelectedEvent = new CustomEvent('voter-selected', { detail: { voter } });
   window.dispatchEvent(voterSelectedEvent);
+
+  
 }
 
 function initMap() {
@@ -24,8 +26,8 @@ function initMap() {
       stroke: false,
     },
   }).addTo(map);
-
-  map.voterLayer.addEventListener('click', onVoterClicked);
+map.voterLayer.addEventListener('click', onVoterClicked);
+  
 
   map.positionLayer = L.geoJSON(null).addTo(map);
 
