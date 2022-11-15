@@ -12,6 +12,7 @@ let app = {
   notes: null,
 };
 
+const voterNameEl = document.getElementById('voter-name');
 const loadOverlayEl = document.getElementById('load-overlay');
 const map = initMap();
 const vlist = [];
@@ -56,11 +57,18 @@ function getList(loc) {
   .then(text => {
     const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
 
-    for (const r of data.data){
-      if (r['TIGER/Line Lng/Lat'] !== undefined && r['TIGER/Line Lng/Lat'] !== null) {
-        const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
-        vlist.push(r);
-      }
+    // for (const r of data.data){
+      // if (r['TIGER/Line Lng/Lat'] !== undefined && r['TIGER/Line Lng/Lat'] !== null) {
+      //   const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
+      //   vlist.push(r);
+      // }
+
+     for (const r of data.data){
+      if (loc === r['TIGER/Line Lng/Lat']) {
+        const voterName = r['First Name'] + ' ' +  r['Last Name'];
+        console.log(voterName);
+        voterNameEl.innerHTML = voterName;
+      } 
     }
     //const voterName = concat(r.properties['First Name'] + ' ' + r.properties['Last Name']);
 
@@ -70,10 +78,13 @@ function getList(loc) {
 }
 
 function onVoterSelected2(evt) {
-   const voterLocation = evt.layer._latlng;
-   console.log(voterLocation);
-   getList(voterLocation)
-
+  //  const voterLocation = evt.layer._latlng;
+   const x = evt.layer._latlng.lng;
+   const y = evt.layer._latlng.lat;
+   const voterLoc = x.toString() + ',' + y.toString();
+   console.log(voterLoc);
+   getList(voterLoc);
+   console.log(evt);
 }
 
 map.voterLayer.addEventListener('click', onVoterSelected2);
