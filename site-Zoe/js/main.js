@@ -48,7 +48,6 @@ fileLoadButton.addEventListener('click', () => {
 });
 
 
-//attempt getList()
 function getList(loc) {
   const text = fileInput.value;
   const fileName = `data/voters_lists/${text}.csv`;
@@ -57,15 +56,9 @@ function getList(loc) {
   .then(text => {
     const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
 
-    // for (const r of data.data){
-      // if (r['TIGER/Line Lng/Lat'] !== undefined && r['TIGER/Line Lng/Lat'] !== null) {
-      //   const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
-      //   vlist.push(r);
-      // }
-
      for (const r of data.data){
       if (loc === r['TIGER/Line Lng/Lat']) {
-        const voterName = r['First Name'] + ' ' +  r['Last Name'];
+        const voterName = r['First Name'] + ' ' +  r['Last Name'] + '\n' + r['TIGER/Line Matched Address'];
         console.log(voterName);
         voterNameEl.innerHTML = voterName;
         const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
@@ -73,7 +66,6 @@ function getList(loc) {
         marker.setStyle({color: 'green'});
       } 
     }
-    //const voterName = concat(r.properties['First Name'] + ' ' + r.properties['Last Name']);
 
     console.log(vlist);
     showVotersInList(vlist, voterList);
@@ -83,7 +75,6 @@ function getList(loc) {
 
 
 function onVoterSelected2(evt) {
-  //  const voterLocation = evt.layer._latlng;
    const x = evt.layer._latlng.lng;
    const y = evt.layer._latlng.lat;
    const voterLoc = x.toString() + ',' + y.toString();
@@ -118,20 +109,6 @@ function onSaveClicked(evt) {
   saveNotes(app.notes);
   showToast('Saved!', 'toast-success');
 }
-
-// `onVoterSelected` will be called if and when the user clicks on a voter on the map.
-// not working yet
-//function onVoterSelected(evt) {
-//  //console.log(evt)
-//  const voter = evt.detail;
-//  console.log(voter)
-//  app.currentVoter = voter;
-//
-//  const voterId = voter.properties['ID Number'];
-//  const notes = app.notes[voterId] || '';
-//  showVoterDataInForm(voter, notes);
-//  //console.log(voter)
-//}
 
 //map.voterLayer.addEventListener('click', onVoterSelected);
 
