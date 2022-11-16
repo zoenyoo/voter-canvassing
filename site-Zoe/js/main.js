@@ -89,18 +89,24 @@ function onVoterSelected2(evt) {
 map.voterLayer.addEventListener('click', onVoterSelected2);
 
 function getVoterForm() {
-   const text = voterInput.value.toString();
-   console.log(vlist)
-   console.log(text);
-   for (const r of vlist){
-    if (vlist['ID Number'] === text) {
+  const text = fileInput.value;
+   const Vtext = voterInput.value.toString();
+   const fileName = `data/voters_lists/${text}.csv`;
+   console.log(Vtext);
+   fetch(fileName)
+  .then(resp => resp.text())
+  .then(text => {
+   const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
+   for (const r of data.data){
+    if (r['ID Number'] === Vtext) {
       const voterName = r['First Name'] + ' ' +  r['Last Name'];
       console.log(voterName);
       voterNameEl.innerHTML = voterName;
-    }
+    };
   }
    //show name
    //create uniwue answer form
+  });
 }
 
 voterLoadButton.addEventListener('click', () => {
