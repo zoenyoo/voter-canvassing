@@ -28,6 +28,7 @@ function getFile() {
   .then(resp => resp.text())
   .then(text => {
     const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
+    voterList.style.backgroundColor = "white";
 
     for (const r of data.data){
       if (r['TIGER/Line Lng/Lat'] !== undefined && r['TIGER/Line Lng/Lat'] !== null) {
@@ -47,7 +48,6 @@ fileLoadButton.addEventListener('click', () => {
   vlist.length = 0;
 });
 
-
 function getList(loc) {
   const text = fileInput.value;
   const fileName = `data/voters_lists/${text}.csv`;
@@ -55,6 +55,8 @@ function getList(loc) {
   .then(resp => resp.text())
   .then(text => {
     const data = Papa.parse(text, {header: true, dynamicTyping: true, skipEmptyLines: true});
+    const filteredvList = [];
+    voterList.style.backgroundColor = "white";
 
      for (const r of data.data){
       if (loc === r['TIGER/Line Lng/Lat']) {
@@ -64,12 +66,15 @@ function getList(loc) {
         const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
         const marker = L.circleMarker([lnglat[1],lnglat[0]]).addTo(map);
         marker.setStyle({color: 'green'});
+        filteredvList.push(r);
+      }
       } 
-    }
 
-    console.log(vlist);
+      showVotersInList(filteredvList, voterList);
+      voterList.style.backgroundColor = "#FDFF47";
+    });
     showVotersInList(vlist, voterList);
-  });
+  
 }
 
 
@@ -81,6 +86,7 @@ function onVoterSelected2(evt) {
    console.log(voterLoc);
    getList(voterLoc);
    console.log(evt);
+
      
 
 }

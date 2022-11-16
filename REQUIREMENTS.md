@@ -39,13 +39,13 @@ The items listed under **Your Repository** and **Core Interface Elements** are a
 
 * [x] When you click on a map marker, the marker should be highlighted in some way to show that it is selected. **Change the marker styles of a selected marker if it is a vector marker (e.g. `L.circleMarker`), or change the icon if it is a normal image marker (e.g. `L.marker`).**
 
-* [?] When you click on a map marker, the corresponding item(s) in the `voterList` should also be highlighted. **Add a class named `selected` to the appropriate element(s) within the `voterList`.** Use that `selected` class to apply different visual styles to the element(s).
+* [x] When you click on a map marker, the corresponding item(s) in the `voterList` should also be highlighted. **Add a class named `selected` to the appropriate element(s) within the `voterList`.** Use that `selected` class to apply different visual styles to the element(s).
 
 ### Displaying and editing voter details...
 
 > _Note that if you decide to implement a workflow that doesn't precisely fit into the structure below, that's ok! Just talk with me about what the workflow is, because we may need to modify the project tests._
 
-* [?] When you click on a voter (or an address) in the `voterList`, a panel should be shown that contains details about the voter (or about each voter at the address). This panel could be represented in HTML with a `div`, `form`, `section`, or any of a number of other elements. **Give the voter information panel(s) a class of `voter-details`.**
+* [x] When you click on a voter (or an address) in the `voterList`, a panel should be shown that contains details about the voter (or about each voter at the address). This panel could be represented in HTML with a `div`, `form`, `section`, or any of a number of other elements. **Give the voter information panel(s) a class of `voter-details`.**
 
 * [ ] There should be _at least_ three separate input elements available for collecting facts about each voter (refer to the [product requirements document](PRD.md) that we created in class to remind yourself what kind of information should be collected). **Include fields for collecting voter information on each `voter-details` panel.** 
 
