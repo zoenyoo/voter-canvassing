@@ -6,6 +6,8 @@ import { downloadInventory, loadNotes, saveNotes } from './inventory.js';
 
 const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
+const voterInput = document.querySelector('#voter-id-filter');
+const voterLoadButton = document.querySelector('#load-voter');
 
 let app = {
   currentVoter: null,
@@ -60,9 +62,6 @@ function getList(loc) {
 
      for (const r of data.data){
       if (loc === r['TIGER/Line Lng/Lat']) {
-        const voterName = r['First Name'] + ' ' +  r['Last Name'] + '\n' + r['TIGER/Line Matched Address'];
-        console.log(voterName);
-        voterNameEl.innerHTML = voterName;
         const lnglat = r['TIGER/Line Lng/Lat'].split(',').map(parseFloat);
         const marker = L.circleMarker([lnglat[1],lnglat[0]]).addTo(map);
         marker.setStyle({color: 'green'});
@@ -77,24 +76,37 @@ function getList(loc) {
   
 }
 
-
-
 function onVoterSelected2(evt) {
    const x = evt.layer._latlng.lng;
    const y = evt.layer._latlng.lat;
    const voterLoc = x.toString() + ',' + y.toString();
    console.log(voterLoc);
    getList(voterLoc);
-   console.log(evt);
-
-     
+   console.log(evt);    
 
 }
 
 map.voterLayer.addEventListener('click', onVoterSelected2);
 
+function getVoterForm() {
+   const text = voterInput.value.toString();
+   console.log(vlist)
+   console.log(text);
+   for (const r of vlist){
+    if (vlist['ID Number'] === text) {
+      const voterName = r['First Name'] + ' ' +  r['Last Name'];
+      console.log(voterName);
+      voterNameEl.innerHTML = voterName;
+    }
+  }
+   //show name
+   //create uniwue answer form
+}
 
-
+voterLoadButton.addEventListener('click', () => {
+  getVoterForm();
+  vlist.length = 0;
+});
 
 // Event Handlers (copied from main.js of tree-inventory)
 
