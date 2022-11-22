@@ -8,6 +8,8 @@ const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
 const voterInput = document.querySelector('#voter-id-filter');
 const voterLoadButton = document.querySelector('#load-voter');
+const saveVoterNotesEl = document.getElementsByClassName('save-voter-notes');
+//will need a map function to iterate over all the notes.
 
 let app = {
   currentVoter: null,
@@ -123,18 +125,38 @@ function onInventoryLoadSuccess(data) {
   loadOverlayEl.classList.add('hidden');
 }
 
+
+function onVoterClicked(evt) {
+  console.log(evt)
+  const voter = evt.layer.feature;
+  const votername = app.properties.properties['voter-name']
+  const voterId = app.currentVoter.properties['ID Number'];
+  app.currentVoter = voter
+
+  const voterNameEl = document.getElementsByClassName('');
+  const voterNotesEl = documet.getElementsByClassName('');
+
+  voterNameEl.innerHTML = votername;
+  voterNotesEl.value = app.notes[voterID] || '';
+}
+
 // `onSaveClicked` will be called if and when the save button on the voter info form is clicked.
 // not working yet
 function onSaveClicked(evt) {
-  const note = evt.detail.note;
+  const voterNote = Array.from(saveVoterNotesEl).map(el => (el.value));
   const voterId = app.currentVoter.properties['ID Number'];
-  app.notes[voterId] = note;
+  JSON.stringify({voterNote})
 
-  saveNotes(app.notes);
-  showToast('Saved!', 'toast-success');
+  //Next Step is to get this to local storage.
+
+ //saveNotes(app.notes);
+ // showToast('Saved!', 'toast-success');
 }
 
-//map.voterLayer.addEventListener('click', onVoterSelected);
+function setupVoterInfoForm() {
+  save.VoterNotesEl.addEventListener('click', onSaveClicked);
+}
+
 
 // **Geolocation** -- `onUserPositionSuccess` will be called by the geolocation
 // API if and when the user's position is successfully found
