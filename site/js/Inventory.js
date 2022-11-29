@@ -29,6 +29,17 @@ function downloadInventory(onSuccess, onFailure, txt) {
   .then(onSuccess);
 }
 
+
+function saveNotesLocal(voterId, content, app) {
+  if (app.notes === null) {
+    app.notes = {};
+  } 
+  app.notes[voterId] = content;
+  
+}
+
+
+
 async function loadNotes(onSuccess, onFailure) {
   try {
     const notesDoc = doc(firestoreDb, "voter-notes", "notes");
@@ -67,4 +78,5 @@ export {
   downloadInventory,
   loadNotes,
   saveNotes,
+  saveNotesLocal
 };
