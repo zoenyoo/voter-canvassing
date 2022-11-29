@@ -147,17 +147,14 @@ function onSaveClicked(evt) {
   const voterId = app.currentVoter.properties['ID Number'];
   const noteString = JSON.stringify({voterNote})
   saveNotesLocal(voterId, noteString, app)
+  console.log(noteString);
+  console.log(app);
 
   //Next Step is to get this to local storage.
 
  //saveNotes(app.notes);
  // showToast('Saved!', 'toast-success');
 }
-
-function setupVoterInfoForm() {
-  save.VoterNotesEl.addEventListener('click', onSaveClicked);
-}
-
 
 // **Geolocation** -- `onUserPositionSuccess` will be called by the geolocation
 // API if and when the user's position is successfully found
