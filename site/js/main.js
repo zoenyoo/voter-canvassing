@@ -2,7 +2,7 @@ import  { initMap, updateUserPositionOn } from './map.js';
 import { initVoterInfoForm, showVoterDataInForm } from './voter-info-form.js';
 import { initToast, showToast } from './toast.js';
 import { showVotersInList } from './voter-list.js';
-import { downloadInventory, loadNotes, saveNotes } from './inventory.js';
+import { downloadInventory, loadNotes, saveNotesLocal } from './inventory.js';
 
 const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
@@ -145,7 +145,8 @@ function onVoterClicked(evt) {
 function onSaveClicked(evt) {
   const voterNote = Array.from(saveVoterNotesEl).map(el => (el.value));
   const voterId = app.currentVoter.properties['ID Number'];
-  JSON.stringify({voterNote})
+  const noteString = JSON.stringify({voterNote})
+  saveNotesLocal(voterId, noteString, app)
 
   //Next Step is to get this to local storage.
 
