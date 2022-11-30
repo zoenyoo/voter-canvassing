@@ -29,13 +29,13 @@ function downloadInventory(onSuccess, onFailure, txt) {
   .then(onSuccess);
 }
 
-
-function saveNotesLocal(voterId, content, app) {
-  if (app.notes === null) {
-    app.notes = {};
-  } 
-  app.notes[voterId] = content;
-  
+function saveNotesLocal(voterId, content1, content2, content3, app) {
+  //app.note[voterId] = content;
+  app.note1[voterId] = content1
+  app.note2[voterId] = content2
+  app.note3[voterId] = content3
+  //localStorage.setItem('notes', content)
+  localStorage.setItem('notes', content1,content2,content3)
 }
 
 

@@ -10,11 +10,16 @@ const voterInput = document.querySelector('#voter-id-filter');
 const voterLoadButton = document.querySelector('#load-voter');
 const saveVoterNotesEl = document.querySelector('#save-voter-notes');
 const saveVoterNotesText = document.getElementsByClassName('voter-notes')
+const textBox1 = document.querySelector('#voter-notes-1')
+const textBox2 = document.querySelector('#voter-notes-2')
+const textBox3 = document.querySelector('#voter-notes-3')
 //will need a map function to iterate over all the notes.
 
 let app = {
   currentVoter: null,
-  notes: null,
+  note1: {},
+  note2: {},
+  note3: {},
 };
 
 const voterNameEl = document.getElementById('voter-name');
@@ -108,6 +113,7 @@ function getVoterForm() {
       app.currentVoter = Vtext
     };
   }
+  showVoterDataInForm()
   console.log(app.currentVoter)
    //show name
    //create unique answer form
@@ -147,11 +153,19 @@ function onInventoryLoadSuccess(data) {
 // not working yet
 function onSaveClicked(evt) {
   console.log(evt)
-  const voterNote = Array.from(saveVoterNotesText).map(el => (el.value));
+  //const voterNote = Array.from(saveVoterNotesText).map(el => (el.value));
+  const voterNote1 = textBox1.value
+  const noteString1 = JSON.stringify({voterNote1})
+  const voterNote2 = textBox2.value
+  const noteString2 = JSON.stringify({voterNote2})
+  const voterNote3 = textBox3.value
+  const noteString3 = JSON.stringify({voterNote3})
   const voterId = app.currentVoter;
-  const noteString = JSON.stringify({voterNote})
-  saveNotesLocal(voterId, noteString, app)
-  console.log(noteString);
+  //const noteString = JSON.stringify({voterNote})
+  saveNotesLocal(voterId, noteString1, noteString2, noteString3, app)
+  console.log(noteString1);
+  console.log(noteString2);
+  console.log(noteString3);
   console.log(app);
 
   //Next Step is to get this to local storage.
