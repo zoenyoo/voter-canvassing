@@ -8,7 +8,8 @@ const fileInput = document.querySelector('#file-name-filter');
 const fileLoadButton = document.querySelector('#load-file');
 const voterInput = document.querySelector('#voter-id-filter');
 const voterLoadButton = document.querySelector('#load-voter');
-const saveVoterNotesEl = document.getElementsByClassName('save-voter-notes');
+const saveVoterNotesEl = document.querySelector('#save-voter-notes');
+const saveVoterNotesText = document.getElementsByClassName('voter-notes')
 //will need a map function to iterate over all the notes.
 
 let app = {
@@ -104,10 +105,12 @@ function getVoterForm() {
       const voterName = r['First Name'] + ' ' +  r['Last Name'];
       console.log(voterName);
       voterNameEl.innerHTML = voterName;
+      app.currentVoter = Vtext
     };
   }
+  console.log(app.currentVoter)
    //show name
-   //create uniwue answer form
+   //create unique answer form
   });
 }
 
@@ -126,25 +129,26 @@ function onInventoryLoadSuccess(data) {
 }
 
 
-function onVoterClicked(evt) {
-  console.log(evt)
-  const voter = evt.layer.feature;
-  const votername = app.properties.properties['voter-name']
-  const voterId = app.currentVoter.properties['ID Number'];
-  app.currentVoter = voter
-
-  const voterNameEl = document.getElementsByClassName('');
-  const voterNotesEl = documet.getElementsByClassName('');
-
-  voterNameEl.innerHTML = votername;
-  voterNotesEl.value = app.notes[voterID] || '';
-}
+//function onVoterClicked(evt) {
+//  console.log(evt)
+//  const voter = evt.layer.feature;
+//  const votername = app.properties.properties['voter-name']
+//  const voterId = app.currentVoter.properties['ID Number'];
+//  app.currentVoter = voter
+//
+//  const voterNameEl = document.getElementsByClassName('');
+//  const voterNotesEl = documet.getElementsByClassName('');
+//
+//  voterNameEl.innerHTML = votername;
+//  voterNotesEl.value = app.notes[voterID] || '';
+//}
 
 // `onSaveClicked` will be called if and when the save button on the voter info form is clicked.
 // not working yet
 function onSaveClicked(evt) {
-  const voterNote = Array.from(saveVoterNotesEl).map(el => (el.value));
-  const voterId = app.currentVoter.properties['ID Number'];
+  console.log(evt)
+  const voterNote = Array.from(saveVoterNotesText).map(el => (el.value));
+  const voterId = app.currentVoter;
   const noteString = JSON.stringify({voterNote})
   saveNotesLocal(voterId, noteString, app)
   console.log(noteString);
@@ -155,6 +159,8 @@ function onSaveClicked(evt) {
  //saveNotes(app.notes);
  // showToast('Saved!', 'toast-success');
 }
+
+saveVoterNotesEl.addEventListener('click', onSaveClicked);
 
 // **Geolocation** -- `onUserPositionSuccess` will be called by the geolocation
 // API if and when the user's position is successfully found
@@ -181,8 +187,8 @@ function setupGeolocationEvent() {
 }
 
 function setupInteractionEvents() {
-  window.addEventListener('voter-selected', onVoterSelected);
-  window.addEventListener('save-clicked', onSaveClicked);
+  window.addEventListener('click', onVoterSelected2);
+  window.addEventListener('click', onSaveClicked);
 }
 
 // Initialize the app components and events
